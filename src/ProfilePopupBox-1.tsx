@@ -4,7 +4,6 @@ import CardMedia from '@mui/material/CardMedia';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CloseIcon from '@mui/icons-material/Close';
 import CalendarUI from 'src/components/CalendarUI/CalendarUI';
-import { MyWordCloud, ReviewOption, wordCloudStyle, reviewOptionStyle, words, WordType } from 'src/components/ReviewCard/ReviewCard';
 import { fieldFullNameConveter } from '../../common/functions/fieldFullNameConveter';
 import { emailCount, getStudentProfile } from '../../utils/schoolsApi';
 import {
@@ -47,7 +46,7 @@ const fieldName = ['firstName', 'lastName', 'preferredName',
   'email', 'pronouns', 'studentNumber', 'course',
   'courseProgression', 'currentLocation', 'work_with_children',
   'otherSkillExperience', 'locationOption', 'learningAreas',
-  'available', 'image'];
+  'available'];
 
 const fieldMatch: JsonObject = {
   firstName: 'First name:',
@@ -86,7 +85,8 @@ async function fetchUserData(id: number) {
     fields[9].value = 'Yes';
   } else { fields[9].value = 'No'; }
   fields.splice(5, 1);
-  return [fields, data.image, data.email];
+  console.log(data.availableTime);
+  return [fields, data.image, data.email, data.availableTime];
 }
 
 interface Props {
@@ -96,23 +96,31 @@ interface Props {
 }
 
 function ProfilePopupBox({ open, handleClose, id }: Props) {
+  console.log('id is:', id);
   const [initValue, setInitValue] = useState<TextFieldInfo[]>([]);
   const [email, setEmail] = useState('');
   const [image, setImage] = useState('');
-  const [showOptions, setShowOptions] = useState(false);
-  const [currentWords, setCurrentWords] = useState<WordType[]>(words);
-
+  const [availableTime, setavailableTime] = useState('');
   useEffect(() => {
     fetchUserData(id)
       .then((list) => {
         setInitValue(list[0]);
         setImage(list[1]);
         setEmail(list[2]);
+        setavailableTime(list[3]);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
+  // // console.log(initValue[13] + id.toString());
+  // const availableTime = initValue[13];
+  // // console.log(availableTime);
+  // console.log('1');
+  // console.log(initValue);
+  // console.log('2');
+  // initValue.pop();
+  // console.log(initValue);
   return (
     <Modal
       open={open}
