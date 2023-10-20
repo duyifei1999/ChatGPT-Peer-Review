@@ -1,4 +1,4 @@
-<Grid
+      <Grid
           item
           md={6}
           lg={6}
@@ -15,7 +15,10 @@
               backgroundColor: 'white',
             }}
           />
-          <CalendarUI />
+          <CalendarUI
+            id={id}
+            availableTime={availableTime}
+          />
         </Grid>
         <Grid item md={6} lg={6} sx={{ pl: 0 }}>
           <Typography
@@ -65,44 +68,9 @@
               </List>
             </Grid>
           </Grid>
-          <Grid
-            container
-            spacing={1}
-            style={{ width: '250px', height: '250px' }}
-          >
-            <Grid item md={6} style={wordCloudStyle}>
-              <div
-                style={{ position: 'relative' }}
-                role="button"
-                tabIndex={0}
-                onClick={() => setShowOptions(!showOptions)}
-                onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    setShowOptions(!showOptions);
-                  }
-                }}
-              >
-                <Box
-                  position="absolute"
-                  top={0}
-                  left={10}
-                  zIndex={1}
-                  p={1}
-                  bgcolor="white"
-                  boxShadow={0}
-                >
-                  <Typography variant="h6">Review</Typography>
-                </Box>
-                <MyWordCloud currentWords={currentWords} setCurrentWords={setCurrentWords} />
-              </div>
-            </Grid>
-            <Grid item md={6} style={reviewOptionStyle}>
-              {showOptions && <ReviewOption setCurrentWords={setCurrentWords} />}
-            </Grid>
-          </Grid>
           <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
             <Button
-              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+              onClick={(e) => {
                 window.location.href = `mailto:${email}`;
                 e.preventDefault();
                 emailCount(localStorage.getItem('userId') || '');
